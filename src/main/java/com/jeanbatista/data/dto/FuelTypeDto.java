@@ -14,6 +14,12 @@ public class FuelTypeDto implements Serializable {
     public FuelTypeDto() {
     }
 
+    public FuelTypeDto(UUID id, String name, BigDecimal pricePerLiter) {
+        this.id = id;
+        this.name = name;
+        this.pricePerLiter = pricePerLiter;
+    }
+
     public UUID getId() {
         return id;
     }

@@ -14,6 +14,12 @@ public class FuelPumpDto implements Serializable {
     public FuelPumpDto() {
     }
 
+    public FuelPumpDto(UUID id, String name, FuelTypeDto fuelType) {
+        this.id = id;
+        this.name = name;
+        this.fuelType = fuelType;
+    }
+
     public UUID getId() {
         return id;
     }
