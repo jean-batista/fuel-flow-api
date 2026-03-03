@@ -22,9 +22,9 @@ class SupplyMapperTest {
     @DisplayName("Should map complete Supply entity to SupplyDto")
     void shouldMapCompleteEntityToDto() {
 
-        FuelType fuelType = FuelTypeMocks.mockEntity("Gasolina", 5.00);
-        FuelPump fuelPump = FuelPumpMocks.mockEntity("Bomba 01", fuelType);
-        Supply entity = SupplyMocks.mockEntity(fuelPump, 50.00);
+        FuelType fuelType = FuelTypeMocks.mockEntity("Gasolina", 5.00, false);
+        FuelPump fuelPump = FuelPumpMocks.mockEntity("Bomba 01", fuelType, false);
+        Supply entity = SupplyMocks.mockEntity(fuelPump, 50.00, true);
 
         SupplyDto dto = SupplyMapper.toDto(entity);
 
@@ -39,9 +39,9 @@ class SupplyMapperTest {
     @DisplayName("Should map complete SupplyDto to Supply entity")
     void shouldMapCompleteDtoToEntity() {
 
-        FuelTypeDto fuelTypeDto = FuelTypeMocks.mockDto("Gasolina", 5.00);
-        FuelPumpDto fuelPumpDto = FuelPumpMocks.mockDto("Bomba 01", fuelTypeDto);
-        SupplyDto dto = SupplyMocks.mockDto(fuelPumpDto, 50.00);
+        FuelTypeDto fuelTypeDto = FuelTypeMocks.mockDto("Gasolina", 5.00, false);
+        FuelPumpDto fuelPumpDto = FuelPumpMocks.mockDto("Bomba 01", fuelTypeDto, false);
+        SupplyDto dto = SupplyMocks.mockDto(fuelPumpDto, 50.00, true);
 
         Supply entity = SupplyMapper.toEntity(dto);
 

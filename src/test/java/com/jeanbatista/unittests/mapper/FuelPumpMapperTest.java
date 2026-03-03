@@ -19,8 +19,8 @@ class FuelPumpMapperTest {
     @DisplayName("Should map FuelPump entity to FuelPumpDto with nested object")
     void shouldMapEntityToDtoWithNestedObject() {
 
-        FuelType fuelType = FuelTypeMocks.mockEntity("Etanol", 3.50);
-        FuelPump entity = FuelPumpMocks.mockEntity("Bomba 01", fuelType);
+        FuelType fuelType = FuelTypeMocks.mockEntity("Etanol", 3.50, false);
+        FuelPump entity = FuelPumpMocks.mockEntity("Bomba 01", fuelType, false);
 
         FuelPumpDto dto = FuelPumpMapper.toDto(entity);
 
@@ -35,8 +35,8 @@ class FuelPumpMapperTest {
     @DisplayName("Should map FuelPumpDto to FuelPump entity with nested object")
     void shouldMapDtoToEntityWithNestedObject() {
 
-        FuelTypeDto fuelTypeDto = FuelTypeMocks.mockDto("Gás", 4.00);
-        FuelPumpDto dto = FuelPumpMocks.mockDto("Bomba GNV", fuelTypeDto);
+        FuelTypeDto fuelTypeDto = FuelTypeMocks.mockDto("Gás", 4.00, false);
+        FuelPumpDto dto = FuelPumpMocks.mockDto("Bomba GNV", fuelTypeDto, false);
 
         FuelPump entity = FuelPumpMapper.toEntity(dto);
 

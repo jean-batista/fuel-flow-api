@@ -15,7 +15,7 @@ class FuelTypeMapperTest {
     @Test
     @DisplayName("Should map FuelType entity to FuelTypeDto")
     void shouldMapEntityToDto() {
-        FuelType entity = FuelTypeMocks.mockEntity("Gasolina", 5.89);
+        FuelType entity = FuelTypeMocks.mockEntity("Gasolina", 5.89, false);
 
         FuelTypeDto dto = FuelTypeMapper.toDto(entity);
 
@@ -29,7 +29,7 @@ class FuelTypeMapperTest {
     @DisplayName("Should map FuelTypeDto to FuelType entity")
     void shouldMapDtoToEntity() {
 
-        FuelTypeDto dto = FuelTypeMocks.mockDto("Diesel", 6.10);
+        FuelTypeDto dto = FuelTypeMocks.mockDto("Diesel", 6.10, false);
 
         FuelType entity = FuelTypeMapper.toEntity(dto);
 

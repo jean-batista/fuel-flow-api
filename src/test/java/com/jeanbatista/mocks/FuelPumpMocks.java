@@ -13,20 +13,20 @@ import java.util.UUID;
 
 public class FuelPumpMocks {
 
-    public static FuelPump mockEntity(String name, FuelType fuelType) {
-        return new FuelPump(UUID.randomUUID(), name, fuelType);
+    public static FuelPump mockEntity(String name, FuelType fuelType, boolean nullId) {
+        return new FuelPump(nullId ? null : UUID.randomUUID(), name, fuelType);
     }
 
-    public static FuelPumpDto mockDto(String name, FuelTypeDto fuelTypeDto) {
-        return new FuelPumpDto(UUID.randomUUID(), name, fuelTypeDto);
+    public static FuelPumpDto mockDto(String name, FuelTypeDto fuelTypeDto, boolean nullId) {
+        return new FuelPumpDto(nullId ? null : UUID.randomUUID(), name, fuelTypeDto);
     }
 
-    public static List<FuelPump> mockListOfEntities(Map<String, FuelType> fuelPumpMap) {
+    public static List<FuelPump> mockListOfEntities(Map<String, FuelType> fuelPumpMap, boolean nullId) {
         List<FuelPump> fuelPumpList = new ArrayList<>();
         for(String fuelPumpName : fuelPumpMap.keySet()) {
             FuelType fuelType = fuelPumpMap.get(fuelPumpName);
             fuelPumpList.add(new FuelPump(
-                    UUID.randomUUID(),
+                    nullId ? null : UUID.randomUUID(),
                     fuelPumpName,
                     fuelType
             ));
@@ -34,12 +34,12 @@ public class FuelPumpMocks {
         return fuelPumpList;
     }
 
-    public static List<FuelPumpDto> mockListOfDtos(Map<String, FuelTypeDto> fuelPumpMap) {
+    public static List<FuelPumpDto> mockListOfDtos(Map<String, FuelTypeDto> fuelPumpMap, boolean nullId) {
         List<FuelPumpDto> fuelPumpList = new ArrayList<>();
         for(String fuelPumpName : fuelPumpMap.keySet()) {
             FuelTypeDto fuelTypeDto = fuelPumpMap.get(fuelPumpName);
             fuelPumpList.add(new FuelPumpDto(
-                    UUID.randomUUID(),
+                    nullId ? null : UUID.randomUUID(),
                     fuelPumpName,
                     fuelTypeDto
             ));
