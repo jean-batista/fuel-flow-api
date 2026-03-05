@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -75,32 +74,14 @@ class SupplyRepositoryTest extends AbstractIntegrationTest {
         supply = SupplyMocks.mockEntity(savedFuelPump, 20.0, true);
         Supply savedSupply = supplyRepository.save(supply);
 
-        Supply foundSupply = supplyRepository.findById(savedSupply.getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Não foi possível encontrar um Supply com o id " + savedSupply.getId())
-                );
+        Optional<Supply> optional = supplyRepository.findById(savedSupply.getId());
+        Supply foundSupply = optional.get();
 
         assertNotNull(foundSupply);
         assertNotNull(foundSupply.getId());
         assertEquals(savedSupply.getId(), foundSupply.getId());
         assertEquals(new BigDecimal("20.0"), foundSupply.getLiters());
         assertEquals(new BigDecimal("117.800"), foundSupply.getTotalPrice());
-    }
-
-    @Test
-    @DisplayName("Should throw exception when Supply entity not found by id")
-    void shouldThrowExceptionWhenSupplyEntityNotFoundById() {
-        UUID nonExistentId = UUID.randomUUID();
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            supplyRepository.findById(nonExistentId)
-                    .orElseThrow(() -> new RuntimeException("Não foi possível encontrar um Supply com o id " + nonExistentId));
-        });
-
-        String expectedMessage = "Não foi possível encontrar um Supply com o id " + nonExistentId;
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test

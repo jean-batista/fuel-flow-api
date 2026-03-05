@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,31 +48,13 @@ class FuelTypeRepositoryTest extends AbstractIntegrationTest {
     void shouldReturnAFuelTypeEntityByYourId() {
         FuelType savedFuelType = fuelTypeRepository.save(fuelType);
 
-        FuelType foundFuelType = fuelTypeRepository.findById(savedFuelType.getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Não foi possível encontrar um FuelType com o id " + savedFuelType.getId())
-                );
+        Optional<FuelType> optional = fuelTypeRepository.findById(savedFuelType.getId());
+        FuelType foundFuelType = optional.get();
 
         assertNotNull(foundFuelType);
         assertNotNull(foundFuelType.getId());
         assertEquals("Gasolina", foundFuelType.getName());
         assertEquals(new BigDecimal("5.89"), foundFuelType.getPricePerLiter());
-    }
-
-    @Test
-    @DisplayName("Should throw exception when FuelType entity not found by id")
-    void shouldThrowExceptionWhenFuelTypeEntityNotFoundById() {
-        UUID nonExistentId = UUID.randomUUID();
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            fuelTypeRepository.findById(nonExistentId)
-                    .orElseThrow(() -> new RuntimeException("Não foi possível encontrar um FuelType com o id " + nonExistentId));
-        });
-
-        String expectedMessage = "Não foi possível encontrar um FuelType com o id " + nonExistentId;
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test

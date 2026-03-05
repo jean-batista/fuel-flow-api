@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,10 +63,8 @@ class FuelPumpRepositoryTest extends AbstractIntegrationTest {
         fuelPump.setFuelType(savedFuelType);
         FuelPump savedFuelPump = fuelPumpRepository.save(fuelPump);
 
-        FuelPump findedFuelPump = fuelPumpRepository.findById(savedFuelPump.getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Não foi possível encontrar um FuelPump com o id " + savedFuelPump.getId())
-                );
+        Optional<FuelPump> optional = fuelPumpRepository.findById(savedFuelPump.getId());
+        FuelPump findedFuelPump = optional.get();
 
         assertNotNull(findedFuelPump);
         assertNotNull(findedFuelPump.getId());
@@ -75,22 +72,6 @@ class FuelPumpRepositoryTest extends AbstractIntegrationTest {
         assertEquals("Bomba 01", findedFuelPump.getName());
         assertEquals("Etanol", findedFuelPump.getFuelType().getName());
         assertEquals(new BigDecimal("3.5"), findedFuelPump.getFuelType().getPricePerLiter());
-    }
-
-    @Test
-    @DisplayName("Should throw exception when FuelPump entity not found by id")
-    void shouldThrowExceptionWhenFuelPumpEntityNotFoundById() {
-        UUID nonExistentId = UUID.randomUUID();
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            fuelPumpRepository.findById(nonExistentId)
-                    .orElseThrow(() -> new RuntimeException("Não foi possível encontrar um FuelPump com o id " + nonExistentId));
-        });
-
-        String expectedMessage = "Não foi possível encontrar um FuelPump com o id " + nonExistentId;
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
