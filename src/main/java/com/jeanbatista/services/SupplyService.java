@@ -1,6 +1,8 @@
 package com.jeanbatista.services;
 
 import com.jeanbatista.data.dto.SupplyDto;
+import com.jeanbatista.exceptions.RequiredObjectIsNullException;
+import com.jeanbatista.exceptions.ResourceNotFoundException;
 import com.jeanbatista.mapper.SupplyMapper;
 import com.jeanbatista.model.FuelPump;
 import com.jeanbatista.model.Supply;
@@ -25,11 +27,13 @@ public class SupplyService {
     private FuelPumpRepository fuelPumpRepository;
 
     public SupplyDto create(SupplyDto supplyDto) {
+        if (supplyDto == null) throw new RequiredObjectIsNullException();
+
         Supply entity = SupplyMapper.toEntity(supplyDto);
 
         FuelPump fuelPump = fuelPumpRepository.findById(supplyDto.getFuelPump().getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Não foi possível encontrar uma bomba de combustível com o id: "
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Não foi possível encontrar um abastecimento com o id: "
                                 + supplyDto.getFuelPump().getId()
                 ));
         
@@ -48,7 +52,7 @@ public class SupplyService {
 
     public SupplyDto findById(UUID id) {
         Supply entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Não foi possível encontrar um abastecimento com o id: " + id
                 ));
         return SupplyMapper.toDto(entity);
@@ -62,7 +66,7 @@ public class SupplyService {
 
     public void delete(UUID id) {
         Supply entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Não foi possível encontrar um abastecimento com o id: " + id
                 ));
         repository.delete(entity);

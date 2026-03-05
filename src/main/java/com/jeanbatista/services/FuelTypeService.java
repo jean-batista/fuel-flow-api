@@ -1,6 +1,8 @@
 package com.jeanbatista.services;
 
 import com.jeanbatista.data.dto.FuelTypeDto;
+import com.jeanbatista.exceptions.RequiredObjectIsNullException;
+import com.jeanbatista.exceptions.ResourceNotFoundException;
 import com.jeanbatista.mapper.FuelTypeMapper;
 import com.jeanbatista.model.FuelType;
 import com.jeanbatista.repositories.FuelTypeRepository;
@@ -18,6 +20,8 @@ public class FuelTypeService {
     private FuelTypeRepository repository;
 
     public FuelTypeDto create(FuelTypeDto fuelTypeDto) {
+        if (fuelTypeDto == null) throw new RequiredObjectIsNullException();
+
         FuelType entity = FuelTypeMapper.toEntity(fuelTypeDto);
         FuelType savedEntity = repository.save(entity);
         return FuelTypeMapper.toDto(savedEntity);
@@ -25,7 +29,7 @@ public class FuelTypeService {
 
     public FuelTypeDto findById(UUID id) {
         FuelType entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Não foi possível encontrar um tipo de combustível com o id: " + id
                 ));
         return FuelTypeMapper.toDto(entity);
@@ -38,9 +42,12 @@ public class FuelTypeService {
     }
 
     public FuelTypeDto update(FuelTypeDto fuelTypeDto) {
+        if (fuelTypeDto == null) throw new RequiredObjectIsNullException();
+
         FuelType entity = repository.findById(fuelTypeDto.getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Não foi possível encontrar um tipo de combustível com o id: " + fuelTypeDto.getId()
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Não foi possível encontrar um tipo de combustível com o id: "
+                                + fuelTypeDto.getId()
                 ));
 
         entity.setName(fuelTypeDto.getName());
@@ -52,7 +59,7 @@ public class FuelTypeService {
 
     public void delete(UUID id) {
         FuelType entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Não foi possível encontrar um tipo de combustível com o id: " + id
                 ));
         repository.delete(entity);
