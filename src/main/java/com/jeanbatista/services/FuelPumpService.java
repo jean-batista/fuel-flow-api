@@ -37,7 +37,7 @@ public class FuelPumpService {
 
         FuelType fuelType = fuelTypeRepository.findById(fuelPumpDto.getFuelType().getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Não foi possível encontrar uma bomba de combustível com o id: "
+                        "Não foi possível encontrar um tipo de combustível com o id: "
                                 + fuelPumpDto.getFuelType().getId()
                 ));
         entity.setFuelType(fuelType);
@@ -74,7 +74,7 @@ public class FuelPumpService {
         if (fuelPumpDto.getFuelType() != null && fuelPumpDto.getFuelType().getId() != null) {
             FuelType fuelType = fuelTypeRepository.findById(fuelPumpDto.getFuelType().getId())
                     .orElseThrow(() -> new ResourceNotFoundException(
-                            "Não foi possível encontrar uma bomba de combustível com o id: "
+                            "Não foi possível encontrar um tipo de combustível com o id: "
                                     + fuelPumpDto.getFuelType().getId()
                     ));
             entity.setFuelType(fuelType);
