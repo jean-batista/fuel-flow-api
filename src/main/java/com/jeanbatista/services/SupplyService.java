@@ -1,6 +1,7 @@
 package com.jeanbatista.services;
 
-import com.jeanbatista.data.dto.SupplyDto;
+import com.jeanbatista.data.dto.response.SupplyResponseDto;
+import com.jeanbatista.data.dto.request.SupplyRequestDto;
 import com.jeanbatista.exceptions.RequiredObjectIsNullException;
 import com.jeanbatista.exceptions.ResourceNotFoundException;
 import com.jeanbatista.mapper.SupplyMapper;
@@ -26,15 +27,15 @@ public class SupplyService {
     @Autowired
     private FuelPumpRepository fuelPumpRepository;
 
-    public SupplyDto create(SupplyDto supplyDto) {
+    public SupplyResponseDto create(SupplyRequestDto supplyDto) {
         if (supplyDto == null) throw new RequiredObjectIsNullException();
 
         Supply entity = SupplyMapper.toEntity(supplyDto);
 
-        FuelPump fuelPump = fuelPumpRepository.findById(supplyDto.getFuelPump().getId())
+        FuelPump fuelPump = fuelPumpRepository.findById(supplyDto.getFuelPumpId())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Não foi possível encontrar um abastecimento com o id: "
-                                + supplyDto.getFuelPump().getId()
+                                + supplyDto.getFuelPumpId()
                 ));
         
         entity.setFuelPump(fuelPump);
@@ -50,7 +51,7 @@ public class SupplyService {
         return SupplyMapper.toDto(savedEntity);
     }
 
-    public SupplyDto findById(UUID id) {
+    public SupplyResponseDto findById(UUID id) {
         Supply entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Não foi possível encontrar um abastecimento com o id: " + id
@@ -58,7 +59,7 @@ public class SupplyService {
         return SupplyMapper.toDto(entity);
     }
 
-    public List<SupplyDto> findAll() {
+    public List<SupplyResponseDto> findAll() {
         return repository.findAll().stream()
                 .map(SupplyMapper::toDto)
                 .collect(Collectors.toList());

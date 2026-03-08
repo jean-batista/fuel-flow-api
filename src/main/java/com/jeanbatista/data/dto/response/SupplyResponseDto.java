@@ -1,4 +1,4 @@
-package com.jeanbatista.data.dto;
+package com.jeanbatista.data.dto.response;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -6,18 +6,18 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-public class SupplyDto implements Serializable {
+public class SupplyResponseDto implements Serializable {
 
     private UUID id;
-    private FuelPumpDto fuelPump;
+    private FuelPumpResponseDto fuelPump;
     private LocalDateTime supplyDate;
     private BigDecimal totalPrice;
     private BigDecimal liters;
 
-    public SupplyDto() {
+    public SupplyResponseDto() {
     }
 
-    public SupplyDto(UUID id, FuelPumpDto fuelPump, LocalDateTime supplyDate, BigDecimal totalPrice, BigDecimal liters) {
+    public SupplyResponseDto(UUID id, FuelPumpResponseDto fuelPump, LocalDateTime supplyDate, BigDecimal totalPrice, BigDecimal liters) {
         this.id = id;
         this.fuelPump = fuelPump;
         this.supplyDate = supplyDate;
@@ -33,11 +33,11 @@ public class SupplyDto implements Serializable {
         this.id = id;
     }
 
-    public FuelPumpDto getFuelPump() {
+    public FuelPumpResponseDto getFuelPump() {
         return fuelPump;
     }
 
-    public void setFuelPump(FuelPumpDto fuelPump) {
+    public void setFuelPump(FuelPumpResponseDto fuelPump) {
         this.fuelPump = fuelPump;
     }
 
@@ -68,8 +68,8 @@ public class SupplyDto implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        SupplyDto supplyDto = (SupplyDto) o;
-        return Objects.equals(id, supplyDto.id) && Objects.equals(fuelPump, supplyDto.fuelPump) && Objects.equals(supplyDate, supplyDto.supplyDate) && Objects.equals(totalPrice, supplyDto.totalPrice) && Objects.equals(liters, supplyDto.liters);
+        SupplyResponseDto supplyResponseDto = (SupplyResponseDto) o;
+        return Objects.equals(id, supplyResponseDto.id) && Objects.equals(fuelPump, supplyResponseDto.fuelPump) && Objects.equals(supplyDate, supplyResponseDto.supplyDate) && Objects.equals(totalPrice, supplyResponseDto.totalPrice) && Objects.equals(liters, supplyResponseDto.liters);
     }
 
     @Override

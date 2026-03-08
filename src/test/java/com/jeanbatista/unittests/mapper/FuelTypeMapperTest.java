@@ -1,6 +1,6 @@
 package com.jeanbatista.unittests.mapper;
 
-import com.jeanbatista.data.dto.FuelTypeDto;
+import com.jeanbatista.data.dto.response.FuelTypeResponseDto;
 import com.jeanbatista.mapper.FuelTypeMapper;
 import com.jeanbatista.mocks.FuelTypeMocks;
 import com.jeanbatista.model.FuelType;
@@ -17,7 +17,7 @@ class FuelTypeMapperTest {
     void shouldMapEntityToDto() {
         FuelType entity = FuelTypeMocks.mockEntity("Gasolina", 5.89, false);
 
-        FuelTypeDto dto = FuelTypeMapper.toDto(entity);
+        FuelTypeResponseDto dto = FuelTypeMapper.toDto(entity);
 
         assertNotNull(dto);
         assertEquals(entity.getId(), dto.getId());
@@ -29,7 +29,7 @@ class FuelTypeMapperTest {
     @DisplayName("Should map FuelTypeDto to FuelType entity")
     void shouldMapDtoToEntity() {
 
-        FuelTypeDto dto = FuelTypeMocks.mockDto("Diesel", 6.10, false);
+        FuelTypeResponseDto dto = FuelTypeMocks.mockDto("Diesel", 6.10, false);
 
         FuelType entity = FuelTypeMapper.toEntity(dto);
 

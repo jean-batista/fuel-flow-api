@@ -1,7 +1,7 @@
 package com.jeanbatista.mocks;
 
-import com.jeanbatista.data.dto.FuelPumpDto;
-import com.jeanbatista.data.dto.SupplyDto;
+import com.jeanbatista.data.dto.response.FuelPumpResponseDto;
+import com.jeanbatista.data.dto.response.SupplyResponseDto;
 import com.jeanbatista.model.FuelPump;
 import com.jeanbatista.model.Supply;
 
@@ -21,11 +21,11 @@ public class SupplyMocks {
         return new Supply(nullId ? null : UUID.randomUUID(), fuelPump, LocalDateTime.now(), totalPrice, bigDecimalLiters);
     }
 
-    public static SupplyDto mockDto(FuelPumpDto fuelPumpDto, Double liters, boolean nullId) {
+    public static SupplyResponseDto mockDto(FuelPumpResponseDto fuelPumpResponseDto, Double liters, boolean nullId) {
         BigDecimal bigDecimalLiters = new BigDecimal(String.valueOf(liters));
-        BigDecimal pricePerLiter = fuelPumpDto.getFuelType().getPricePerLiter();
+        BigDecimal pricePerLiter = fuelPumpResponseDto.getFuelType().getPricePerLiter();
         BigDecimal totalPrice = pricePerLiter.multiply(bigDecimalLiters);
-        return new SupplyDto(nullId ? null : UUID.randomUUID(), fuelPumpDto, LocalDateTime.now(), totalPrice, bigDecimalLiters);
+        return new SupplyResponseDto(nullId ? null : UUID.randomUUID(), fuelPumpResponseDto, LocalDateTime.now(), totalPrice, bigDecimalLiters);
     }
 
     public static List<Supply> mockListOfEntities(Map<FuelPump, Double> supplyMap, boolean nullId) {
@@ -46,22 +46,22 @@ public class SupplyMocks {
         return supplyList;
     }
 
-    public static List<SupplyDto> mockListOfDtos(Map<FuelPumpDto, Double> supplyMap, boolean nullId) {
-        List<SupplyDto> supplyDtoList = new ArrayList<>();
-        for(FuelPumpDto fuelPumpDto : supplyMap.keySet()) {
-            Double liters = supplyMap.get(fuelPumpDto);
+    public static List<SupplyResponseDto> mockListOfDtos(Map<FuelPumpResponseDto, Double> supplyMap, boolean nullId) {
+        List<SupplyResponseDto> supplyResponseDtoList = new ArrayList<>();
+        for(FuelPumpResponseDto fuelPumpResponseDto : supplyMap.keySet()) {
+            Double liters = supplyMap.get(fuelPumpResponseDto);
             BigDecimal bigDecimalLiters = new BigDecimal(String.valueOf(liters));
-            BigDecimal pricePerLiter = fuelPumpDto.getFuelType().getPricePerLiter();
+            BigDecimal pricePerLiter = fuelPumpResponseDto.getFuelType().getPricePerLiter();
             BigDecimal totalPrice = pricePerLiter.multiply(bigDecimalLiters);
-            supplyDtoList.add(new SupplyDto(
+            supplyResponseDtoList.add(new SupplyResponseDto(
                     nullId ? null : UUID.randomUUID(),
-                    fuelPumpDto,
+                    fuelPumpResponseDto,
                     LocalDateTime.now(),
                     totalPrice,
                     bigDecimalLiters
             ));
         }
-        return supplyDtoList;
+        return supplyResponseDtoList;
     }
 
 }

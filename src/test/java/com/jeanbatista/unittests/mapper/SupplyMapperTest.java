@@ -1,8 +1,8 @@
 package com.jeanbatista.unittests.mapper;
 
-import com.jeanbatista.data.dto.FuelPumpDto;
-import com.jeanbatista.data.dto.FuelTypeDto;
-import com.jeanbatista.data.dto.SupplyDto;
+import com.jeanbatista.data.dto.response.FuelPumpResponseDto;
+import com.jeanbatista.data.dto.response.FuelTypeResponseDto;
+import com.jeanbatista.data.dto.response.SupplyResponseDto;
 import com.jeanbatista.mapper.SupplyMapper;
 import com.jeanbatista.mocks.FuelPumpMocks;
 import com.jeanbatista.mocks.FuelTypeMocks;
@@ -26,7 +26,7 @@ class SupplyMapperTest {
         FuelPump fuelPump = FuelPumpMocks.mockEntity("Bomba 01", fuelType, false);
         Supply entity = SupplyMocks.mockEntity(fuelPump, 50.00, true);
 
-        SupplyDto dto = SupplyMapper.toDto(entity);
+        SupplyResponseDto dto = SupplyMapper.toDto(entity);
 
         assertNotNull(dto);
         assertEquals(entity.getId(), dto.getId());
@@ -39,9 +39,9 @@ class SupplyMapperTest {
     @DisplayName("Should map complete SupplyDto to Supply entity")
     void shouldMapCompleteDtoToEntity() {
 
-        FuelTypeDto fuelTypeDto = FuelTypeMocks.mockDto("Gasolina", 5.00, false);
-        FuelPumpDto fuelPumpDto = FuelPumpMocks.mockDto("Bomba 01", fuelTypeDto, false);
-        SupplyDto dto = SupplyMocks.mockDto(fuelPumpDto, 50.00, true);
+        FuelTypeResponseDto fuelTypeResponseDto = FuelTypeMocks.mockDto("Gasolina", 5.00, false);
+        FuelPumpResponseDto fuelPumpResponseDto = FuelPumpMocks.mockDto("Bomba 01", fuelTypeResponseDto, false);
+        SupplyResponseDto dto = SupplyMocks.mockDto(fuelPumpResponseDto, 50.00, true);
 
         Supply entity = SupplyMapper.toEntity(dto);
 

@@ -1,11 +1,10 @@
 package com.jeanbatista.mocks;
 
-import com.jeanbatista.data.dto.FuelPumpDto;
-import com.jeanbatista.data.dto.FuelTypeDto;
+import com.jeanbatista.data.dto.response.FuelPumpResponseDto;
+import com.jeanbatista.data.dto.response.FuelTypeResponseDto;
 import com.jeanbatista.model.FuelPump;
 import com.jeanbatista.model.FuelType;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +16,8 @@ public class FuelPumpMocks {
         return new FuelPump(nullId ? null : UUID.randomUUID(), name, fuelType);
     }
 
-    public static FuelPumpDto mockDto(String name, FuelTypeDto fuelTypeDto, boolean nullId) {
-        return new FuelPumpDto(nullId ? null : UUID.randomUUID(), name, fuelTypeDto);
+    public static FuelPumpResponseDto mockDto(String name, FuelTypeResponseDto fuelTypeResponseDto, boolean nullId) {
+        return new FuelPumpResponseDto(nullId ? null : UUID.randomUUID(), name, fuelTypeResponseDto);
     }
 
     public static List<FuelPump> mockListOfEntities(Map<String, FuelType> fuelPumpMap, boolean nullId) {
@@ -34,14 +33,14 @@ public class FuelPumpMocks {
         return fuelPumpList;
     }
 
-    public static List<FuelPumpDto> mockListOfDtos(Map<String, FuelTypeDto> fuelPumpMap, boolean nullId) {
-        List<FuelPumpDto> fuelPumpList = new ArrayList<>();
+    public static List<FuelPumpResponseDto> mockListOfDtos(Map<String, FuelTypeResponseDto> fuelPumpMap, boolean nullId) {
+        List<FuelPumpResponseDto> fuelPumpList = new ArrayList<>();
         for(String fuelPumpName : fuelPumpMap.keySet()) {
-            FuelTypeDto fuelTypeDto = fuelPumpMap.get(fuelPumpName);
-            fuelPumpList.add(new FuelPumpDto(
+            FuelTypeResponseDto fuelTypeResponseDto = fuelPumpMap.get(fuelPumpName);
+            fuelPumpList.add(new FuelPumpResponseDto(
                     nullId ? null : UUID.randomUUID(),
                     fuelPumpName,
-                    fuelTypeDto
+                    fuelTypeResponseDto
             ));
         }
         return fuelPumpList;

@@ -1,6 +1,6 @@
 package com.jeanbatista.mocks;
 
-import com.jeanbatista.data.dto.FuelTypeDto;
+import com.jeanbatista.data.dto.response.FuelTypeResponseDto;
 import com.jeanbatista.model.FuelType;
 
 import java.math.BigDecimal;
@@ -15,8 +15,8 @@ public class FuelTypeMocks {
         return new FuelType(nullId ? null : UUID.randomUUID(), name, new BigDecimal(String.valueOf(pricePerLiter)));
     }
 
-    public static FuelTypeDto mockDto(String name, Double pricePerLiter, boolean nullId) {
-        return new FuelTypeDto(nullId ? null : UUID.randomUUID(), name, new BigDecimal(String.valueOf(pricePerLiter)));
+    public static FuelTypeResponseDto mockDto(String name, Double pricePerLiter, boolean nullId) {
+        return new FuelTypeResponseDto(nullId ? null : UUID.randomUUID(), name, new BigDecimal(String.valueOf(pricePerLiter)));
     }
 
     public static List<FuelType> mockListOfEntities(Map<String, Double> fuelTypeMap, boolean nullId) {
@@ -32,17 +32,17 @@ public class FuelTypeMocks {
         return fuelTypeList;
     }
 
-    public static List<FuelTypeDto> mockListOfDtos(Map<String, Double> fuelTypeDtoMap, boolean nullId) {
-        List<FuelTypeDto> fuelTypeDtoList = new ArrayList<>();
+    public static List<FuelTypeResponseDto> mockListOfDtos(Map<String, Double> fuelTypeDtoMap, boolean nullId) {
+        List<FuelTypeResponseDto> fuelTypeResponseDtoList = new ArrayList<>();
         for(String fuelTypeName : fuelTypeDtoMap.keySet()) {
             Double pricePerLiter = fuelTypeDtoMap.get(fuelTypeName);
-            fuelTypeDtoList.add(new FuelTypeDto(
+            fuelTypeResponseDtoList.add(new FuelTypeResponseDto(
                     nullId ? null : UUID.randomUUID(),
                     fuelTypeName,
                     new BigDecimal(String.valueOf(pricePerLiter))
             ));
         }
-        return fuelTypeDtoList;
+        return fuelTypeResponseDtoList;
     }
 
 }

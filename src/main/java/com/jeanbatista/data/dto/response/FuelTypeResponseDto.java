@@ -1,20 +1,20 @@
-package com.jeanbatista.data.dto;
+package com.jeanbatista.data.dto.response;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-public class FuelTypeDto implements Serializable {
+public class FuelTypeResponseDto implements Serializable {
 
     private UUID id;
     private String name;
     private BigDecimal pricePerLiter;
 
-    public FuelTypeDto() {
+    public FuelTypeResponseDto() {
     }
 
-    public FuelTypeDto(UUID id, String name, BigDecimal pricePerLiter) {
+    public FuelTypeResponseDto(UUID id, String name, BigDecimal pricePerLiter) {
         this.id = id;
         this.name = name;
         this.pricePerLiter = pricePerLiter;
@@ -47,7 +47,7 @@ public class FuelTypeDto implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        FuelTypeDto that = (FuelTypeDto) o;
+        FuelTypeResponseDto that = (FuelTypeResponseDto) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(pricePerLiter, that.pricePerLiter);
     }
 

@@ -1,6 +1,7 @@
 package com.jeanbatista.services;
 
-import com.jeanbatista.data.dto.FuelTypeDto;
+import com.jeanbatista.data.dto.response.FuelTypeResponseDto;
+import com.jeanbatista.data.dto.request.FuelTypeRequestDto;
 import com.jeanbatista.exceptions.RequiredObjectIsNullException;
 import com.jeanbatista.exceptions.ResourceNotFoundException;
 import com.jeanbatista.mapper.FuelTypeMapper;
@@ -19,7 +20,7 @@ public class FuelTypeService {
     @Autowired
     private FuelTypeRepository repository;
 
-    public FuelTypeDto create(FuelTypeDto fuelTypeDto) {
+    public FuelTypeResponseDto create(FuelTypeRequestDto fuelTypeDto) {
         if (fuelTypeDto == null) throw new RequiredObjectIsNullException();
 
         FuelType entity = FuelTypeMapper.toEntity(fuelTypeDto);
@@ -27,7 +28,7 @@ public class FuelTypeService {
         return FuelTypeMapper.toDto(savedEntity);
     }
 
-    public FuelTypeDto findById(UUID id) {
+    public FuelTypeResponseDto findById(UUID id) {
         FuelType entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Não foi possível encontrar um tipo de combustível com o id: " + id
@@ -35,13 +36,13 @@ public class FuelTypeService {
         return FuelTypeMapper.toDto(entity);
     }
 
-    public List<FuelTypeDto> findAll() {
+    public List<FuelTypeResponseDto> findAll() {
         return repository.findAll().stream()
                 .map(FuelTypeMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    public FuelTypeDto update(FuelTypeDto fuelTypeDto) {
+    public FuelTypeResponseDto update(FuelTypeRequestDto fuelTypeDto) {
         if (fuelTypeDto == null) throw new RequiredObjectIsNullException();
 
         FuelType entity = repository.findById(fuelTypeDto.getId())

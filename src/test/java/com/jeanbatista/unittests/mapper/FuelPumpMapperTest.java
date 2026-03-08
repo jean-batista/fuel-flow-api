@@ -1,7 +1,7 @@
 package com.jeanbatista.unittests.mapper;
 
-import com.jeanbatista.data.dto.FuelPumpDto;
-import com.jeanbatista.data.dto.FuelTypeDto;
+import com.jeanbatista.data.dto.response.FuelPumpResponseDto;
+import com.jeanbatista.data.dto.response.FuelTypeResponseDto;
 import com.jeanbatista.mapper.FuelPumpMapper;
 import com.jeanbatista.mocks.FuelPumpMocks;
 import com.jeanbatista.mocks.FuelTypeMocks;
@@ -22,7 +22,7 @@ class FuelPumpMapperTest {
         FuelType fuelType = FuelTypeMocks.mockEntity("Etanol", 3.50, false);
         FuelPump entity = FuelPumpMocks.mockEntity("Bomba 01", fuelType, false);
 
-        FuelPumpDto dto = FuelPumpMapper.toDto(entity);
+        FuelPumpResponseDto dto = FuelPumpMapper.toDto(entity);
 
         assertNotNull(dto);
         assertEquals(entity.getId(), dto.getId());
@@ -35,8 +35,8 @@ class FuelPumpMapperTest {
     @DisplayName("Should map FuelPumpDto to FuelPump entity with nested object")
     void shouldMapDtoToEntityWithNestedObject() {
 
-        FuelTypeDto fuelTypeDto = FuelTypeMocks.mockDto("Gás", 4.00, false);
-        FuelPumpDto dto = FuelPumpMocks.mockDto("Bomba GNV", fuelTypeDto, false);
+        FuelTypeResponseDto fuelTypeResponseDto = FuelTypeMocks.mockDto("Gás", 4.00, false);
+        FuelPumpResponseDto dto = FuelPumpMocks.mockDto("Bomba GNV", fuelTypeResponseDto, false);
 
         FuelPump entity = FuelPumpMapper.toEntity(dto);
 

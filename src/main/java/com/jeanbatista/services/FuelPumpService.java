@@ -1,6 +1,7 @@
 package com.jeanbatista.services;
 
-import com.jeanbatista.data.dto.FuelPumpDto;
+import com.jeanbatista.data.dto.response.FuelPumpResponseDto;
+import com.jeanbatista.data.dto.request.FuelPumpRequestDto;
 import com.jeanbatista.exceptions.RequiredObjectIsNullException;
 import com.jeanbatista.exceptions.ResourceNotFoundException;
 import com.jeanbatista.mapper.FuelPumpMapper;
@@ -24,21 +25,18 @@ public class FuelPumpService {
     @Autowired
     private FuelTypeRepository fuelTypeRepository;
 
-    public FuelPumpDto create(FuelPumpDto fuelPumpDto) {
+    public FuelPumpResponseDto create(FuelPumpRequestDto fuelPumpDto) {
         if (fuelPumpDto == null) throw new RequiredObjectIsNullException();
 
         FuelPump entity = FuelPumpMapper.toEntity(fuelPumpDto);
 
-        if(fuelPumpDto.getFuelType() == null) throw new RequiredObjectIsNullException(
-                "O tipo de combustível é obrigatório para esta operação");
-
-        if(fuelPumpDto.getFuelType().getId() == null) throw new RequiredObjectIsNullException(
+        if(fuelPumpDto.getFuelTypeId() == null) throw new RequiredObjectIsNullException(
                 "O tipo de combustível não pode possuir um id nulo");
 
-        FuelType fuelType = fuelTypeRepository.findById(fuelPumpDto.getFuelType().getId())
+        FuelType fuelType = fuelTypeRepository.findById(fuelPumpDto.getFuelTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Não foi possível encontrar um tipo de combustível com o id: "
-                                + fuelPumpDto.getFuelType().getId()
+                                + fuelPumpDto.getFuelTypeId()
                 ));
         entity.setFuelType(fuelType);
 
@@ -46,7 +44,7 @@ public class FuelPumpService {
         return FuelPumpMapper.toDto(savedEntity);
     }
 
-    public FuelPumpDto findById(UUID id) {
+    public FuelPumpResponseDto findById(UUID id) {
         FuelPump entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Não foi possível encontrar uma bomba de combustível com o id: " + id
@@ -54,13 +52,13 @@ public class FuelPumpService {
         return FuelPumpMapper.toDto(entity);
     }
 
-    public List<FuelPumpDto> findAll() {
+    public List<FuelPumpResponseDto> findAll() {
         return repository.findAll().stream()
                 .map(FuelPumpMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    public FuelPumpDto update(FuelPumpDto fuelPumpDto) {
+    public FuelPumpResponseDto update(FuelPumpRequestDto fuelPumpDto) {
         if (fuelPumpDto == null) throw new RequiredObjectIsNullException();
 
         FuelPump entity = repository.findById(fuelPumpDto.getId())
@@ -71,11 +69,11 @@ public class FuelPumpService {
 
         entity.setName(fuelPumpDto.getName());
 
-        if (fuelPumpDto.getFuelType() != null && fuelPumpDto.getFuelType().getId() != null) {
-            FuelType fuelType = fuelTypeRepository.findById(fuelPumpDto.getFuelType().getId())
+        if (fuelPumpDto.getFuelTypeId() != null) {
+            FuelType fuelType = fuelTypeRepository.findById(fuelPumpDto.getFuelTypeId())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Não foi possível encontrar um tipo de combustível com o id: "
-                                    + fuelPumpDto.getFuelType().getId()
+                                    + fuelPumpDto.getFuelTypeId()
                     ));
             entity.setFuelType(fuelType);
         }

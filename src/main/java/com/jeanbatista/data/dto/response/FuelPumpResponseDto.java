@@ -1,20 +1,20 @@
-package com.jeanbatista.data.dto;
+package com.jeanbatista.data.dto.response;
 
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 
-public class FuelPumpDto implements Serializable {
+public class FuelPumpResponseDto implements Serializable {
 
     private UUID id;
     private String name;
-    private FuelTypeDto fuelType;
+    private FuelTypeResponseDto fuelType;
 
-    public FuelPumpDto() {
+    public FuelPumpResponseDto() {
     }
 
-    public FuelPumpDto(UUID id, String name, FuelTypeDto fuelType) {
+    public FuelPumpResponseDto(UUID id, String name, FuelTypeResponseDto fuelType) {
         this.id = id;
         this.name = name;
         this.fuelType = fuelType;
@@ -36,18 +36,18 @@ public class FuelPumpDto implements Serializable {
         this.name = name;
     }
 
-    public FuelTypeDto getFuelType() {
+    public FuelTypeResponseDto getFuelType() {
         return fuelType;
     }
 
-    public void setFuelType(FuelTypeDto fuelType) {
+    public void setFuelType(FuelTypeResponseDto fuelType) {
         this.fuelType = fuelType;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        FuelPumpDto that = (FuelPumpDto) o;
+        FuelPumpResponseDto that = (FuelPumpResponseDto) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(fuelType, that.fuelType);
     }
 
