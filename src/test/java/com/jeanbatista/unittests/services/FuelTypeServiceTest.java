@@ -1,5 +1,6 @@
 package com.jeanbatista.unittests.services;
 
+import com.jeanbatista.data.dto.request.FuelTypeRequestDto;
 import com.jeanbatista.data.dto.response.FuelTypeResponseDto;
 import com.jeanbatista.exceptions.RequiredObjectIsNullException;
 import com.jeanbatista.exceptions.ResourceNotFoundException;
@@ -8,7 +9,6 @@ import com.jeanbatista.model.FuelType;
 import com.jeanbatista.repositories.FuelTypeRepository;
 import com.jeanbatista.services.FuelTypeService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,26 +36,25 @@ class FuelTypeServiceTest {
     private FuelTypeRepository fuelTypeRepository;
 
     private FuelType fuelType;
-    private FuelTypeResponseDto fuelTypeResponseDto;
+    private FuelTypeRequestDto fuelTypeRequestDto;
 
     @BeforeEach
     void setup() {
         fuelType = FuelTypeMocks.mockEntity("Gasolina", 5.89, false);
-        fuelTypeResponseDto = FuelTypeMocks.mockDto("Gasolina", 5.89, false);
+        fuelTypeRequestDto = FuelTypeMocks.mockRequestDto("Gasolina", 5.89, false);
     }
 
-    @Disabled
     @Test
     @DisplayName("Should create a FuelType")
     void shouldCreateAFuelType() {
         when(fuelTypeRepository.save(any(FuelType.class))).thenReturn(fuelType);
 
-//        FuelTypeResponseDto createdDto = service.create(fuelTypeResponseDto);
-//
-//        assertNotNull(createdDto);
-//        assertNotNull(createdDto.getId());
-//        assertEquals("Gasolina", createdDto.getName());
-//        assertEquals(new BigDecimal("5.89"), createdDto.getPricePerLiter());
+        FuelTypeResponseDto createdDto = service.create(fuelTypeRequestDto);
+
+        assertNotNull(createdDto);
+        assertNotNull(createdDto.getId());
+        assertEquals("Gasolina", createdDto.getName());
+        assertEquals(new BigDecimal("5.89"), createdDto.getPricePerLiter());
     }
 
     @Test
@@ -122,19 +121,18 @@ class FuelTypeServiceTest {
         assertEquals(list.get(1).getPricePerLiter(), dtoList.get(1).getPricePerLiter());
     }
 
-    @Disabled
     @Test
     @DisplayName("Should update a FuelType")
     void shouldUpdateAFuelType() {
-        when(fuelTypeRepository.findById(fuelTypeResponseDto.getId())).thenReturn(Optional.of(fuelType));
+        when(fuelTypeRepository.findById(fuelTypeRequestDto.getId())).thenReturn(Optional.of(fuelType));
         when(fuelTypeRepository.save(any(FuelType.class))).thenReturn(fuelType);
 
-//        FuelTypeResponseDto updatedDto = service.update(fuelTypeResponseDto);
-//
-//        assertNotNull(updatedDto);
-//        assertNotNull(updatedDto.getId());
-//        assertEquals("Gasolina", updatedDto.getName());
-//        assertEquals(new BigDecimal("5.89"), updatedDto.getPricePerLiter());
+        FuelTypeResponseDto updatedDto = service.update(fuelTypeRequestDto);
+
+        assertNotNull(updatedDto);
+        assertNotNull(updatedDto.getId());
+        assertEquals("Gasolina", updatedDto.getName());
+        assertEquals(new BigDecimal("5.89"), updatedDto.getPricePerLiter());
     }
 
     @Test
@@ -152,23 +150,22 @@ class FuelTypeServiceTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
-    @Disabled
     @Test
     @DisplayName("Should throw ResourceNotFoundException when updating a non-existent FuelType ID")
     void shouldThrowResourceNotFoundExceptionWhenUpdatingANonExistentFuelTypeId() {
-        when(fuelTypeRepository.findById(fuelTypeResponseDto.getId())).thenReturn(Optional.empty());
+        when(fuelTypeRepository.findById(fuelTypeRequestDto.getId())).thenReturn(Optional.empty());
 
-//        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
-//            service.update(fuelTypeResponseDto);
-//        });
-//
-//        String expectedMessage = "Não foi possível encontrar um tipo de combustível com o id: "
-//                + fuelTypeResponseDto.getId();
-//        String actualMessage = exception.getMessage();
-//
-//        verify(fuelTypeRepository, never()).save(any(FuelType.class));
-//        assertEquals(ResourceNotFoundException.class, exception.getClass());
-//        assertEquals(expectedMessage, actualMessage);
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+            service.update(fuelTypeRequestDto);
+        });
+
+        String expectedMessage = "Não foi possível encontrar um tipo de combustível com o id: "
+                + fuelTypeRequestDto.getId();
+        String actualMessage = exception.getMessage();
+
+        verify(fuelTypeRepository, never()).save(any(FuelType.class));
+        assertEquals(ResourceNotFoundException.class, exception.getClass());
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test

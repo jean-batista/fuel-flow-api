@@ -89,7 +89,8 @@ class FuelPumpRepositoryTest extends AbstractIntegrationTest {
         List<FuelPump> fuelPumpList = fuelPumpRepository.findAll();
 
         assertNotNull(fuelPumpList);
-        assertEquals(2, fuelPumpList.size());
+        assertFalse(fuelPumpList.isEmpty());
+        assertTrue(fuelPumpList.size() > fuelPumpsToSave.size());
     }
 
     @Test

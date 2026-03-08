@@ -1,5 +1,6 @@
 package com.jeanbatista.unittests.services;
 
+import com.jeanbatista.data.dto.request.SupplyRequestDto;
 import com.jeanbatista.data.dto.response.FuelPumpResponseDto;
 import com.jeanbatista.data.dto.response.SupplyResponseDto;
 import com.jeanbatista.exceptions.RequiredObjectIsNullException;
@@ -14,7 +15,6 @@ import com.jeanbatista.repositories.FuelPumpRepository;
 import com.jeanbatista.repositories.SupplyRepository;
 import com.jeanbatista.services.SupplyService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,7 +45,7 @@ class SupplyServiceTest {
     private FuelPumpRepository fuelPumpRepository;
 
     private Supply supply;
-    private SupplyResponseDto supplyResponseDto;
+    private SupplyRequestDto supplyRequestDto;
     private FuelPump fuelPump;
     private FuelPumpResponseDto fuelPumpResponseDto;
     private FuelType fuelType;
@@ -54,25 +54,24 @@ class SupplyServiceTest {
     void setup() {
         fuelType = FuelTypeMocks.mockEntity("Gasolina", 5.89, false);
         fuelPump = FuelPumpMocks.mockEntity("Bomba 01", fuelType, false);
-        fuelPumpResponseDto = FuelPumpMocks.mockDto(
-                "Bomba 01", FuelTypeMocks.mockDto("Gasolina", 5.89, false), false);
+        fuelPumpResponseDto = FuelPumpMocks.mockResponseDto(
+                "Bomba 01", FuelTypeMocks.mockResponseDto("Gasolina", 5.89, false), false);
         supply = SupplyMocks.mockEntity(fuelPump, 20.0, false);
-        supplyResponseDto = SupplyMocks.mockDto(fuelPumpResponseDto, 20.0, false);
+        supplyRequestDto = SupplyMocks.mockRequestDto(fuelPump.getId(), 20.0, false);
     }
-
-    @Disabled
+    
     @Test
     @DisplayName("Should create a Supply")
     void shouldCreateASupply() {
-        when(fuelPumpRepository.findById(fuelPumpResponseDto.getId())).thenReturn(Optional.of(fuelPump));
+        when(fuelPumpRepository.findById(supplyRequestDto.getFuelPumpId())).thenReturn(Optional.of(fuelPump));
         when(supplyRepository.save(any(Supply.class))).thenReturn(supply);
 
-//        SupplyResponseDto createdDto = service.create(supplyResponseDto);
-//
-//        assertNotNull(createdDto);
-//        assertNotNull(createdDto.getId());
-//        assertEquals(new BigDecimal("20.0"), createdDto.getLiters());
-//        assertEquals(new BigDecimal("117.800"), createdDto.getTotalPrice());
+        SupplyResponseDto createdDto = service.create(supplyRequestDto);
+
+        assertNotNull(createdDto);
+        assertNotNull(createdDto.getId());
+        assertEquals(new BigDecimal("20.0"), createdDto.getLiters());
+        assertEquals(new BigDecimal("117.800"), createdDto.getTotalPrice());
     }
 
     @Test
@@ -90,23 +89,22 @@ class SupplyServiceTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
-    @Disabled
     @Test
     @DisplayName("Should throw ResourceNotFoundException when creating a Supply with non-existent FuelPump")
     void shouldThrowResourceNotFoundExceptionWhenCreatingASupplyWithNonExistentFuelPump() {
-        when(fuelPumpRepository.findById(fuelPumpResponseDto.getId())).thenReturn(Optional.empty());
+        when(fuelPumpRepository.findById(supplyRequestDto.getFuelPumpId())).thenReturn(Optional.empty());
 
-//        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
-//            service.create(supplyResponseDto);
-//        });
-//
-//        String expectedMessage = "Não foi possível encontrar um abastecimento com o id: "
-//                + supplyResponseDto.getFuelPump().getId();
-//        String actualMessage = exception.getMessage();
-//
-//        verify(supplyRepository, never()).save(any(Supply.class));
-//        assertEquals(ResourceNotFoundException.class, exception.getClass());
-//        assertEquals(expectedMessage, actualMessage);
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+            service.create(supplyRequestDto);
+        });
+
+        String expectedMessage = "Não foi possível encontrar um abastecimento com o id: "
+                + supplyRequestDto.getFuelPumpId();
+        String actualMessage = exception.getMessage();
+
+        verify(supplyRepository, never()).save(any(Supply.class));
+        assertEquals(ResourceNotFoundException.class, exception.getClass());
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test
