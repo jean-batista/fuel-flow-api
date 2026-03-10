@@ -1,0 +1,15 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: fuel-flow-api
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+    show-sql: false
