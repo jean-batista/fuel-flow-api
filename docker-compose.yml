@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:17
+    restart: on-failure
+    container_name: fuel-flow-db
+    environment:
+      POSTGRES_USER: ${DOCKER_DB_USERNAME}
+      POSTGRES_PASSWORD: ${DOCKER_DB_PASSWORD}
+      POSTGRES_DB: ${DOCKER_DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - fuel-flow-network
+
+  app:
+    build: .
+    restart: on-failure
+    container_name: fuel-flow-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_USERNAME: ${DOCKER_DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DOCKER_DB_PASSWORD}
+      SPRING_DATASOURCE_URL: ${DOCKER_DB_URL}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+    networks:
+      - fuel-flow-network
+
+volumes:
+  postgres_data:
+
+networks:
+  fuel-flow-network:
+    driver: bridge
