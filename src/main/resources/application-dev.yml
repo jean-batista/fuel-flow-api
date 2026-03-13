@@ -5,10 +5,7 @@ spring:
     password: ${DEV_DB_PASSWORD}
     url: ${DEV_DB_URL}
   jpa:
+    show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    generate-ddl: true
-    hibernate:
-      ddl-auto: none
-    show-sql: false
+        highlight_sql: true
